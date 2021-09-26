@@ -5,7 +5,7 @@
 int main(int argc, char const *argv[])
 {
     list_t *l = create();
-    int i, j, operations, operator, tmp;
+    int i, j, operations, operator;
 
     for ( i = 1; i < 10000; i++)
     {
@@ -16,12 +16,11 @@ int main(int argc, char const *argv[])
 
     for ( i = 2; i < size(l); i++)
     {
-        for ( j = i+1; j < size(l); j++)
+        for ( j = i+1; j < 10000; j++)
         {
-            tmp = query_index(l, j);
-            if (tmp % i == 0)
+            if (j % i == 0)
             {
-                lremove_by_elem(l, tmp);
+                lremove_by_elem(l, j);
             }
         }
     }
