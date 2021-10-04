@@ -3,50 +3,100 @@
 #include <string.h>
 #include "stack.h"
 
+/*
+ * Victor Rodrigues da Silva  No 12566140
+ * 
+ * 
+ * le caracteres ( { [ " ] } ) e diz se as aberturas e fechamentos estao balanceados
+*/
+
 int main(int argc, char const *argv[])
 {
-    int eof_reader;
+    int eof_reader, flag;
     char key, prev;
     stack_t *text;
     text = create();
 
+    //repete leituras de linha texto
     do
     {
-        eof_reader = getchar();
-        key = eof_reader;
-        if (key == ']' || key == ')' || key == '}')
+        flag = 0;
+        //le cada caractere e verifica infracao de balanceamento
+        do
         {
-            pop(text, &prev);
-            if (key == ']' && prev != '[')
+            eof_reader = getchar();
+            //lida com \r\n
+            if (eof_reader == '\r')
             {
-                printf("DESBALANCEADO");
-                exit(0);
+                eof_reader = getchar();
             }
-            if (key == '}' && prev != '{')
+            key = eof_reader;
+
+            //lida com " sendo iguais pra abrir e fechar / adiciona caracteres a pilha
+            top_value(text, &prev);
+            if (key == '"' && prev == '"')
             {
-                printf("DESBALANCEADO");
-                exit(0);
+                pop(text, &prev);
             }
-            if (key == ')' && prev != '(')
+            else if (key == '[' || key == '(' || key == '{' || key == '"')
             {
-                printf("DESBALANCEADO");
-                exit(0);
+                push(text, &key);
+            }
+
+            //verifica se o caractere de fechamento segue as regras e retira da pilha
+            if (key == ']' || key == ')' || key == '}')
+            {
+                pop(text, &prev);
+                if (prev == 0 && flag == 0)
+                {
+                    printf("NÃO BALANCEADO\n");
+                    flag = 1;
+                    eof_reader = '\n';
+                }
+                if (key == ']' && prev != '[' && flag == 0)
+                {
+                    printf("NÃO BALANCEADO\n");
+                    flag = 1;
+                    eof_reader = '\n';
+                }
+                if (key == '}' && prev != '{' && flag == 0)
+                {
+                    printf("NÃO BALANCEADO\n");
+                    flag = 1;
+                    eof_reader = '\n';
+                }
+                if (key == ')' && prev != '(' && flag == 0)
+                {
+                    printf("NÃO BALANCEADO\n");
+                    flag = 1;
+                    eof_reader = '\n';
+                }
+            }
+            
+            
+        } while (key != '\n' && eof_reader != EOF);
+        
+        //lida com o caso de aberturas sem fechamento
+        if (flag != 1)
+        {
+            if (!isEmpty(text))
+            {
+                printf("NÃO BALANCEADO\n");
+            }
+            else
+            {
+                printf("BALANCEADO\n");
             }
         }
-        if (key == '[' || key == '(' || key == '{' || key == '"')
+        
+        //esvazia a pilha 
+        while (!isEmpty(text))
         {
-            push(text, &key);
+            pop(text, &prev);
         }
         
     } while (eof_reader != EOF);
-    
-    if (!isEmpty(text))
-    {
-        printf("DESBALANCEADO");
-    }
-    else
-    {
-        printf("BALANCEADO");
-    }
+        destroy(text);
+
     return 0;
 }

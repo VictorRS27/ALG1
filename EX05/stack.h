@@ -1,4 +1,4 @@
-#define Stack_Size 100
+#define Stack_Size 400
 
 typedef struct stack stack_t;
 typedef char elem;

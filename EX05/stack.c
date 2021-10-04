@@ -8,6 +8,7 @@ struct stack
     elem items[Stack_Size];
 };
 
+//cria a pilha
 stack_t *create()
 {
     stack_t *s = (stack_t *)malloc(sizeof(stack_t));
@@ -16,6 +17,7 @@ stack_t *create()
     return s;
 }
 
+//desaloca a pilha
 void destroy(stack_t *s)
 {
     if (s != NULL)
@@ -25,6 +27,7 @@ void destroy(stack_t *s)
     s = NULL;
 }
 
+//verifica se esta cheia
 int isFull(stack_t *s)
 {
     if (s->top == Stack_Size - 1)
@@ -33,6 +36,7 @@ int isFull(stack_t *s)
         return 0;
 }
 
+//verifica se esta vazia
 int isEmpty(stack_t *s) 
 {
     if (s->top == -1)
@@ -41,6 +45,7 @@ int isEmpty(stack_t *s)
         return 0;
 }
 
+//insere dados na pilha
 int push(stack_t *s, elem *x)
 {
     if (isFull(s) == 1)
@@ -48,14 +53,16 @@ int push(stack_t *s, elem *x)
         return -1;
     }
     s->top = s->top + 1;
-    s->items[s->top] = x;
+    s->items[s->top] = *x;
     return 1;
 }
 
+//retira dados da pilha
 int pop(stack_t *s, elem *x)
 {
     if (isEmpty(s) == 1)
     {
+        *x = 0;
         return 0;
     }
     
@@ -63,7 +70,7 @@ int pop(stack_t *s, elem *x)
     s->top -= 1;
     return 1;
 }
-
+//consulta o valor do topo da pilha
 int top_value(stack_t *s, elem *x)
 {
     if (isEmpty(s) == 1)
