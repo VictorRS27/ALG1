@@ -3,6 +3,13 @@
 #include <string.h>
 #include "list.h"
 
+/*
+ * Victor Rodrigues da Silva  No 12566140
+ * 
+ * 
+ * Inclui tad lista encadeada e substitui um trecho especificado por outro
+*/
+
 char *read_line()
 {
     int i = 0, eofReader;
@@ -30,9 +37,11 @@ int main(int argc, char const *argv[])
     char *mistake, *correction;
     int eof_reader, i = -1, j;
 
+    //repeticao de execucoes
     do
     {
         phrase = create();
+        //leitura e gravacao dos textos iniciais na memoria
         do
         {
             eof_reader = getchar();
@@ -44,20 +53,22 @@ int main(int argc, char const *argv[])
             insert(phrase, (char)eof_reader);
         } while ('\n' != (char)eof_reader);
 
+        //leitura dos erros e correcoes
         mistake = read_line();
         correction = read_line();
 
-        while (j != 0)
+        //corrige o erro em todas as ocorrecias do texto
+        do
         {
-            replace(phrase, mistake, correction);
-        }
+            j = replace(phrase, mistake, correction);
+        } while (j != 0);
         
+        //escrita do texto final
         for (j = 0; j < size(phrase); j++)
         {
             printf("%c", query_index(phrase, j));
         }
-
-        printf("\n");
+        //printf("\n");
 
         free(mistake);
         free(correction);
