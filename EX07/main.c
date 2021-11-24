@@ -3,6 +3,14 @@
 #include <string.h>
 #include "list.h"
 
+/*
+ * Victor R. da Silva  nUSP: 12566140
+ * 
+ * Programa para armazenamento de nomes relativos a um codigo em lista ordenada;
+*/
+
+
+//funcao para leitura de palavra em char
 int eofReader;
 char *read_word()
 {
@@ -30,6 +38,8 @@ char *read_word()
     return line;
 }
 
+
+//funcao para leitura de linha char
 char *read_line()
 {
     int i = -1;
@@ -63,15 +73,20 @@ int main(int argc, char const *argv[])
     int reader, names_counter = 0;
     list_t *codes = create();
     
-
+    //repete a leitura de instrucoes
     while (eofReader != EOF)
     {
         comand = read_word();
+        //insere o codigo numa lista ligada e o nome num vetor com um index compativel com o codigo 
         if (strcmp(comand, "INSERE") == 0)
         {
             scanf(" %d", &reader);
             getchar();
-            if(!insert(codes, reader))
+            if (reader < 0)
+            {
+                printf("INVALIDO\n");
+            }
+            else if(!insert(codes, reader) )
             {
                 printf("INVALIDO\n");
             }
@@ -79,9 +94,9 @@ int main(int argc, char const *argv[])
             {
             names_counter++;
             names_database[reader] = read_line();
-            //printf("inseri %s em %d\n", names_database[reader], reader);
             }            
         }
+        //remove o codigo e o nome
         else if (strcmp(comand, "REMOVE") == 0)
         {
             scanf(" %d", &reader);
@@ -98,6 +113,7 @@ int main(int argc, char const *argv[])
             free(names_database[reader]);                
             }
         }
+        //imprime os nomes de acordo com a ordem da lista
         else if (strcmp(comand, "IMPRIMIR") == 0)
         {
             if(names_counter != 0)
@@ -118,6 +134,7 @@ int main(int argc, char const *argv[])
         }
     }
 
+    //libera nomes e codigos
     for (int i = 0; i < names_counter; i++)
     {
         reader = query_index(codes, i);

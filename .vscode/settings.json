@@ -1,6 +1,8 @@
 {
     "git.ignoreLimitWarning": true,
     "files.associations": {
-        "fila.h": "c"
+        "fila.h": "c",
+        "skip_list.h": "c",
+        "stdio.h": "c"
     }
 }
