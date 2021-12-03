@@ -144,7 +144,7 @@ elem query_index(list_t *l, int index)
 // remove a primeira ocorrencia de um elemento na lista
 int lremove_by_elem(list_t *l, elem cutter)
 {
-
+    
     node_t *i = l->start;
     node_t *prev;
     while (i != NULL)
